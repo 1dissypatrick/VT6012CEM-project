@@ -1,0 +1,1077 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>自選報價單 | Future Technology Computer LTD</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      /* Shared Variables */
+      --bg: #F5F5F5;
+      --white: #FFFFFF;
+      --dark: #1F2023;
+      --muted: #6B6C72;
+      --accent: #D4B76F;
+      --accent-hover: #C2AA7E;
+      --spacing: 1rem;
+      --radius: 0.5rem;
+      --transition: 0.3s;
+      /* Self-quote specific */
+      --orange: #FFA500;
+      --bg-light: #FFF7E0;
+      --border: #E0D6C2;
+    }
+    * { box-sizing: border-box; margin:0; padding:0; }
+    body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--dark); line-height:1.5; }
+    a, button { color:inherit; text-decoration:none; background:none; border:none; font:inherit; cursor:pointer; }
+    img { display:block; max-width:100%; height:auto; }
+    .container { width:min(90%,1200px); margin:0 auto; }
+    .flex { display:flex; }
+    .justify-between { justify-content:space-between; }
+    .items-center { align-items:center; }
+    .gap { gap:var(--spacing); }
+
+    /* Top bar (index) */
+    header.top-bar { background:var(--white); font-size:0.9rem; border-bottom:1px solid #EEE; }
+    header.top-bar .container { padding:0.5rem 0; display:flex; justify-content:space-between; align-items:center; }
+    .company-info { display:flex; align-items:center; gap:0.5rem; }
+    .company-info img { height:40px; }
+    .company-info h1 { font-size:1rem; font-weight:700; }
+    .company-info span { font-size:0.85rem; color:var(--muted); }
+    .member-nav a { margin:0 0.5rem; padding:0.25rem; transition:color var(--transition); }
+    .member-nav a:hover { color:var(--accent); }
+    .cart-summary { font-size:0.85rem; color:var(--muted); }
+
+    /* Main Header - Consistent with previous design */
+    header.main-header { 
+      background:var(--white); 
+      box-shadow:0 2px 6px rgba(0,0,0,0.05); 
+      position:sticky; 
+      top:0; 
+      z-index:100; 
+    }
+    header.main-header .container { 
+      display:flex; 
+      justify-content:space-between; 
+      align-items:center; 
+      height:60px; 
+    }
+    .logo img { height:40px; }
+    .nav-primary { display:flex; align-items:center; }
+    .nav-primary a,
+    .nav-primary button {
+      margin:0 0.5rem;
+      font-weight:600;
+      padding:0.5rem;
+      border-radius:var(--radius);
+      transition:background var(--transition);
+      position: relative;
+    }
+    .nav-primary a:hover,
+    .nav-primary button:hover { 
+      background:rgba(212,183,111,0.1); 
+    }
+    
+    /* Dropdown styles - Consistent with previous design */
+    .dropdown-container {
+      position: relative;
+      display: inline-block;
+    }
+    
+    /* 新手上路 Dropdown */
+    .newbie-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: var(--white);
+      border: 1px solid #EEE;
+      border-radius: var(--radius);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: var(--spacing);
+      z-index: 200;
+      min-width: 200px;
+    }
+    .newbie-menu ul { list-style:none; margin:0; padding:0; }
+    .newbie-menu li {
+      font-size:0.95rem;
+      color:var(--dark);
+      margin-bottom:0.5rem;
+      white-space: nowrap;
+      cursor: pointer;
+      padding: 0.25rem 0;
+    }
+    .newbie-menu li:hover { color: var(--accent); }
+    .newbie-menu li:last-child { margin-bottom:0; }
+    
+    /* 付款方式 Dropdown */
+    .payment-dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: var(--white);
+      border: 1px solid #EEE;
+      border-radius: var(--radius);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: var(--spacing);
+      z-index: 200;
+      width: 200px;
+    }
+    .payment-dropdown-content img {
+      width: 100%;
+      height: auto;
+      border-radius: var(--radius);
+    }
+    .quote-section {
+      position: relative;
+      margin: 20px auto;
+      max-width: 1200px;
+    }
+    
+    /* Top Image */
+    .quote-top-image {
+      width: 100%;
+      margin-bottom: 20px;
+      margin-left: 40px;
+      text-align: center;
+    }
+    
+    .quote-top-image img {
+      max-width: 100%;
+      border-radius: 8px;
+    }
+    
+    /* Content Wrapper for Left Image + Quote Container */
+    .quote-content-wrapper {
+      display: flex;
+      gap: 20px;
+    }
+    
+    /* Left Image */
+    .quote-left-image {
+      width: 200px;
+      flex-shrink: 0;
+    }
+    
+    .quote-left-image img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+    
+    /* Self-quote header */
+    .quote-header {
+      background: var(--orange);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      padding: var(--spacing);
+      font-weight: 600;
+    }
+    .quote-header .title {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-size: 1.1rem;
+      text-align: center;
+    }
+    .quote-header .mobile-link {
+      margin-left: 0;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+    .quote-header .quote-input {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .quote-header input {
+      padding: 0.4rem 0.6rem;
+      border: none;
+      border-radius: var(--radius);
+    }
+    .quote-header button {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: var(--radius);
+      background: #fff;
+      color: var(--orange);
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    /* Self-quote container & table */
+    .quote-container {
+      width: 100%;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    th, td {
+      border-bottom: 1px solid var(--border);
+      padding: 0.75rem 0.5rem;
+      font-size: 0.95rem;
+      text-align: left;
+    }
+    th {
+      background: var(--bg-light);
+      font-weight: 600;
+    }
+    select {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: white;
+      font-size: 0.95rem;
+      color: var(--dark);
+      -webkit-appearance: menulist;
+      -moz-appearance: menulist;
+      appearance: menulist;
+    }
+    select:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    td.quantity, td.function, td.price {
+      width: 80px;
+      text-align: center;
+    }
+
+    /* Custom Dropdown Styles */
+    .custom-dropdown {
+      position: relative;
+      width: 100%;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: white;
+      font-size: 0.95rem;
+    }
+    .dropdown-toggle {
+      padding: 0.5rem;
+      cursor: pointer;
+      text-align: left;
+      background: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .dropdown-toggle .img{
+      margin-right: -5px;
+    }
+    .dropdown-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background: white;
+      border: 1px solid #ccc;
+      border-radius: var(--radius);
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      z-index: 1000;
+    }
+    .dropdown-menu.open {
+      display: block;
+    }
+    .dropdown-header {
+      padding: 10px;
+      background-color: #f5f5f5;
+      border-bottom: 1px solid #ccc;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+    .dropdown-header input[type="text"] {
+      flex: 1;
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+    .dropdown-header .price-filter {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+    .dropdown-header .price-filter input {
+      width: 80px;
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+    .dropdown-header select {
+      padding: 5px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+    }
+    .dropdown-header button {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 3px;
+      cursor: pointer;
+    }
+    .dropdown-content {
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      padding: 10px;
+      border-bottom: 1px solid #eee;
+    }
+    .dropdown-item input[type="checkbox"] {
+      margin-right: 10px;
+    }
+    .dropdown-item label {
+      flex-grow: 1;
+    }
+    .dropdown-item label span {
+      color: #ff6200;
+      font-weight: bold;
+    }
+    .dropdown-item label .save{
+      color: black;
+      font-weight: bold;
+    }
+    .dropdown-item .price {
+      font-weight: bold;
+      color: #000;
+    }
+    .stock-info {
+      color: green;
+      font-size: 0.9em;
+      margin-left: 5px;
+    }
+
+    /* Quote actions (buttons below table) */
+    .quote-actions {
+      width: min(100%, 960px);
+      margin: 1rem auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: VGA0.5rem;
+    }
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+    }
+  
+    button.btn {
+      padding: 8px 16px;
+      border: 1px solid #ccc;
+      background: white;
+      cursor: pointer;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+  
+    button.primary {
+      background: orange;
+      color: black;
+      border-color: orange;
+      padding: 8px 16px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+  
+    button.primary:hover {
+      background: #E05D00;
+    }
+  
+    button.secondary {
+      background: #f0f0f0;
+      color: #333;
+      padding: 8px 16px;
+      border: 1px solid #ccc;
+      cursor: pointer;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+    .quote-disclaimer {
+      text-align: center;
+      font-size: 14px;
+      color: #666;
+      line-height: 1.5;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    .quote-disclaimer0 {
+      font-size: 14px;
+      color: #666;
+      line-height: 1.5;
+      margin: 0 auto;
+      padding: 10px;
+    }
+    
+    .quote-disclaimer h4 {
+      margin: 15px 0;
+      color: #1F2023;
+    }
+    
+    .tag-descriptions {
+      list-style-type: none;
+      padding: 0;
+      margin: 20px auto;
+      display: inline-block;
+      text-align: left;
+    }
+    
+    .tag-descriptions li {
+      margin-bottom: 8px;
+    }
+    
+    .delivery-info,
+    .contact-info {
+      margin: 20px 0;
+    }
+    
+    .delivery-info img,
+    .contact-info img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 600px) {
+      .quote-header {
+        flex-wrap: wrap;
+      }
+      .quote-header .title {
+        width: 100%;
+        margin-bottom: 0.5rem;
+        justify-content: center;
+      }
+      .quote-header .quote-input {
+        width: 100%;
+        justify-content: flex-end;
+      }
+      th, td {
+        font-size: 0.85rem;
+        padding: 0.5rem;
+      }
+      .quote-actions {
+        flex-direction: column;
+        align-items: center;
+      }
+      .quote-actions .action-buttons,
+      .quote-actions .primary-buttons {
+        width: 100%;
+        justify-content: center;
+      }
+      .quote-actions .action-buttons button,
+      .quote-actions .primary-buttons button {
+        width: auto;
+        flex: 1;
+        text-align: center;
+      }
+      .dropdown-menu {
+        width: 100%;
+      }
+    }
+
+    /* Footer */
+    footer.site-footer {
+      background: var(--white);
+      border-top: 1px solid #EEE;
+      padding: var(--spacing) 0;
+      margin-top: var(--spacing);
+    }
+    footer.site-footer .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    footer.site-footer .footer-col {
+      flex: 1;
+      padding: 0 var(--spacing);
+    }
+    footer.site-footer h3 {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+      color: var(--dark);
+    }
+    footer.site-footer ul {
+      list-style: none;
+    }
+    footer.site-footer li {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 0.25rem;
+    }
+    .search-bar {
+      margin-top: var(--spacing) 0;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.5rem;
+    }
+    .search-bar input {
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--muted);
+      border-radius: var(--radius);
+    }
+    .search-bar button {
+      background: var(--accent);
+      color: var(--white);
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius);
+      font-weight: 600;
+      cursor: pointer;
+      transition: background var(--transition);
+    }
+    .search-bar button:hover {
+      background: var(--accent-hover);
+    }
+    .dropdown-header .price-filter label {
+      margin: 0 5px;
+      white-space: nowrap;
+    }
+    #footer-section {
+      scroll-margin-top: 100px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Main Header - Consistent with previous design -->
+  <header class="top-bar">
+    <div class="container flex justify-between items-center">
+      <div class="company-info">
+        <img src="logo.jpg" alt="Logo">
+        <div>
+          <h1>未來科技電腦有限公司</h1>
+          <span>Future Technology Computer LTD</span>
+        </div>
+      </div>
+      <nav class="member-nav">
+        <a href="Home.html">回首頁</a>
+        <a href="#">最新商品</a>
+        <a href="#">幫助中心</a>
+        <a href="Shopping Cart.html">購物車</a>
+        <a href="#">會員登入</a> |
+        <a href="#">加入會員</a>
+      </nav>
+      <div class="cart-summary">您的購物車中有0件商品, 總計金額 HKS0.00</div>
+    </div>
+  </header>
+
+  <!-- Main Header -->
+  <header class="main-header">
+    <div class="container flex justify-between items-center">
+      <nav class="nav-primary">
+        <div class="dropdown-container">
+          <button id="newbie-btn">新手上路</button>
+          <div id="newbie-menu" class="newbie-menu">
+            <ul>
+              <li>購物流程</li>
+              <li>訂購方式</li>
+              <li>訂單處理程序</li>
+              <li>問題集</li>
+              <li>組裝流程介紹</li>
+            </ul>
+          </div>
+        </div>
+        <div class="dropdown-container">
+          <a href="#" id="payment-methods">付款方式</a>
+          <div class="payment-dropdown-content">
+            <img src="5.png" alt="Payment Methods">
+          </div>
+        </div>
+        <a href="#">訂購方式</a>
+        <a href="#">聯絡我們</a>
+        <a href="Computer combinations.html">自選組裝</a>
+        <a href="#">電腦組合</a>
+        <a href="#">手提電腦</a>
+        <a href="Original computer.html">原廠電腦</a>
+        <a href="#">商業客戶專區</a>
+        <a href="Online Enquiry.html">網上查詢</a>
+        <a href="#">電腦租用</a>
+        <a href="#footer-section">其他服務</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Self-Quote Section -->
+  <div class="quote-section">
+    <div class="quote-top-image">
+      <img src="27.png" alt="PROART 未來智能制造平台 ASUS PROART 尊榮工作配置 Powered by ASUS螺母配置">
+    </div>
+
+    <div class="quote-content-wrapper">
+      <div class="quote-left-image">
+        <img src="23.png" alt="CHing~救命呀!!">
+        <img src="24.png" alt="CHing~救命呀!!">
+        <img src="25.png" alt="CHing~救命呀!!">
+        <img src="26.png" alt="CHing~救命呀!!">
+      </div>
+
+      <div class="quote-container">
+        <div class="quote-header">
+          <div class="title">
+            自選報價單
+            <span class="mobile-link">進入手機版</span>
+          </div>
+          <div class="quote-input">
+            <input type="text" placeholder="輸入報價單號..">
+            <button>開啟</button>
+          </div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>產品名稱</th>
+              <th class="quantity">數量</th>
+              <th class="function">功能</th>
+              <th class="price">現金價</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td><select><option>COMBO --- 特惠套餐 (處理器+主機板)</option></select></td><td class="quantity"></td><td class="function"></td><td class="price"></td></tr>
+            <tr><td><select><option>CPU --- 中央處理器</option></select></td><td class="quantity"></td><td class="function"></td><td class="price"></td></tr>
+            <tr><td><select><option>Motherboard --- 主機板 AMD紅色/Intel藍色</option></select></td><td class="quantity"></td><td class="function"></td><td class="price"></td></tr>
+            <tr><td><select><option>Ram --- 記憶體 (DDR5/DDR4/Notebook)</option></select></td><td class="quantity"></td><td class="function"></td><td class="price"></td></tr>
+            <tr><td><select><option>SSD --- 固態硬碟 (可選多項)</option></select></td><td class="quantity"></td><td class="function"></td><td class="price"></td></tr>
+            <tr><td><select><option>Hard Disk --- 硬碟機 (可選多項)</option></select></td><td class="quantity"></td><td class="function"></td><td class="price"></td></tr>
+            <tr><td><select><option>Display Card --- 顯示卡</option></select></td><td class="quantity"></td><td class="function"></td><td class="price"></td></tr>
+            <tr><td><select><option>Case --- 機箱 (M.ATX/ATX/ITX)</option></select></td><td class="quantity"></td><td class="function"></td><td class="price"></td></tr>
+            <tr><td><select><option>Power Supply --- 火牛</option></select></td><td class="quantity"></td><td class="function"></td><td class="price"></td></tr>
+            <tr>
+              <td>
+                <div class="custom-dropdown">
+                  <div class="dropdown-toggle" onclick="toggleDropdown(this)">CPU Cooling --- 處理器 風冷/水冷 (建議只購買一種)<div class="img"><img src="32.png"></div></div>
+                  <div class="dropdown-menu">
+                    <div class="dropdown-header">
+                      <input type="text" id="searchInput" placeholder="請輸入商品" onkeyup="filterItems()">
+                      <div class="price-filter">
+                      <label>價格:</label>
+                      
+                        
+                        <input type="number" id="minPrice" placeholder="" onkeyup="filterItems()">
+                      <label>元以上~</label>
+                        <input type="number" id="maxPrice" placeholder="" onkeyup="filterItems()">
+                      <label>元以下</label>
+                      </div>
+                      <select id="brandFilter" onchange="filterItems()">
+                        <option value="">品牌: 全部</option>
+                        <option value="NZXT">NZXT</option>
+                        <option value="ASUS">ASUS</option>
+                        <option value="VALKYRIE">VALKYRIE</option>
+                        <option value="COOLLEO">COOLLEO</option>
+                        <option value="TCOMAS">TCOMAS</option>
+                        <option value="THERMALRIGHT">THERMALRIGHT</option>
+                        <option value="GAMEMAX">GAMEMAX</option>
+                        <option value="AMD">AMD</option>
+                        <option value="Intel">Intel</option>
+                        <option value="BE QUIET">BE QUIET</option>
+                      </select>
+                      
+                    </div>
+                    <div class="dropdown-content" id="coolingDropdown">
+                      <div class="dropdown-item">
+                        <input type="checkbox" id="item1">
+                        <label for="item1"><span>現貨*</span> [塔散] NZXT T120 [白色] [高: 159mm] 現貨* (<span class="save">僅存1</span>)</label>
+                        <span class="price" data-price="199.00">$199.00</span>
+                      </div>
+                      <div class="dropdown-item">
+                        <input type="checkbox" id="item2">
+                        <label for="item2"><span>現貨*</span>[240水冷] ASUS ROG RYUJIN III 240 [黑色] 現貨* (<span class="save">僅存3</span>)</label>
+                        <span class="price" data-price="1299.00">$1299.00</span>
+                      </div>
+                      <div class="dropdown-item">
+                        <input type="checkbox" id="item3">
+                        <label for="item3"><span>現貨*</span>[480水冷] VALKYRIE C480 RGB [黑色] 現貨* (<span class="save">僅存1</span>)</label>
+                        <span class="price" data-price="699.00">$699.00</span>
+                      </div>
+                      <div class="dropdown-item">
+                        <input type="checkbox" id="item4">
+                        <label for="item4"><span>現貨*</span>[塔散] COOLLEO A40 ARGB [黑色] [高: 148mm] 現貨* <span class="save">【庫存剩】</span></label>
+                        <span class="price" data-price="88.00">$88.00</span>
+                      </div>
+                      <div class="dropdown-item">
+                        <input type="checkbox" id="item5">
+                        <label for="item5"><span>現貨*</span>[360水冷] TCOMAS LX800 PRO 360 *AMD專用* [白色]</label>
+                        <span class="price" data-price="1549.00">$1549.00</span>
+                      </div>
+                      <div class="dropdown-item">
+                        <input type="checkbox" id="item6">
+                        <label for="item6"><span>現貨*</span>[360水冷] TCOMAS SJ-A080 360 *INTEL專用* [黑色]</label>
+                        <span class="price" data-price="529.00">$529.00</span>
+                      </div>
+                      <div class="dropdown-item">
+                        <input type="checkbox" id="item7">
+                        <label for="item7"><span>現貨*</span>[塔散] THERMALRIGHT ASSASSIN X 120 REFINED SE ARGB [高: 148mm]</label>
+                        <span class="price" data-price="135.00">$135.00</span>
+                      </div>
+                      <div class="dropdown-item">
+                        <input type="checkbox" id="item8">
+                        <label for="item8"><span>現貨*</span>Intel 原裝 CPU FAN (LGA115X)</label>
+                        <span class="price" data-price="99.00">$99.00</span>
+                      </div>
+                      <div class="dropdown-item">
+                        <input type="checkbox" id="item9">
+                        <label for="item9"><span>現貨*</span>[240水冷] BE QUIET SILENT LOOP 3</label>
+                        <span class="price" data-price="999.00">$999.00</span>
+                      </div>
+                      <div class="dropdown-item">
+                        <input type="checkbox" id="item10">
+                        <label for="item10"><span>現貨*</span>[360水冷] VALKYRIE A360 ARGB [白色]</label>
+                        <span class="price" data-price="440.00">$440.00</span>
+                      </div>
+                      <div class="dropdown-item">
+                        <input type="checkbox" id="item11">
+                        <label for="item11"><span>現貨*</span> [塔散] GAMEMAX SIGMA 520 DIGITAL BK *溫變顯示* [黑色] [高: 157mm]</label>
+                        <span class="price" data-price="265.00">$265.00</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td class="quantity"></td>
+              <td class="function"></td>
+              <td class="price"></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="custom-dropdown">
+                  <div class="dropdown-toggle" onclick="toggleDropdown(this)">CPU Thermal Paste --- 散熱膏<div class="img"><img src="32.png"></div></div>
+                  <div class="dropdown-menu">
+                    <div class="dropdown-header">
+                      <div class="search-input">
+                        <input type="text" id="searchInputThermalPaste" placeholder="請輸入商品" onkeyup="filterItemsThermalPaste()">
+                      </div>
+                      <div class="price-filter">
+                        <label>價格:</label>
+                        <input type="number" id="minPriceThermalPaste" placeholder="" onkeyup="filterItemsThermalPaste()">
+                        <label>元以上~</label>
+                        <input type="number" id="maxPriceThermalPaste" placeholder="" onkeyup="filterItemsThermalPaste()">
+                        <label>元以下</label>
+                      </div>
+                      <select id="brandFilterThermalPaste" onchange="filterItemsThermalPaste()">
+                        <option value="">品牌: 全部</option>
+                        <option value="ARCTIC">ARCTIC</option>
+                        <option value="Thermal Grizzly">Thermal Grizzly</option>
+                        <option value="Cooler Master">Cooler Master</option>
+                        <option value="Noctua">Noctua</option>
+                        <option value="DeepCool">DeepCool</option>
+                        <option value="Thermalright">Thermalright</option>
+                        <option value="GELID">GELID</option>
+                      </select>
+                    </div>
+                    <div class="dropdown-content" id="thermalPasteDropdown">
+                      <div class="dropdown-item">
+                        <input type="checkbox" id="thermalPaste1">
+                        <label for="thermalPaste1"><span>現貨*</span> ARCTIC MX-4 (4g) 高性能散熱膏</label>
+                        <span class="price" data-price="59.00">$59.00</span>
+                      </div>
+                      <div class="dropdown-item">
+                        <input type="checkbox" id="thermalPaste2">
+                        <label for="thermalPaste2"><span>現貨*</span> Thermal Grizzly Kryonaut (1g) 導熱係數12.5W/mk</label>
+                        <span class="price" data-price="99.00">$99.00</span>
+                      </div>
+                      <div class="dropdown-item">
+                        <input type="checkbox" id="thermalPaste3">
+                        <label for="thermalPaste3"><span>現貨*</span> Cooler Master MasterGel Maker (4g) 納米鑽石散熱膏</label>
+                        <span class="price" data-price="129.00">$129.00</span>
+                      </div>
+                      <div class="dropdown-item">
+                        <input type="checkbox" id="thermalPaste4">
+                        <label for="thermalPaste4"><span>現貨*</span> Noctua NT-H1 (3.5g) 專業級散熱膏</label>
+                        <span class="price" data-price="65.00">$65.00</span>
+                      </div>
+                      <div class="dropdown-item">
+                        <input type="checkbox" id="thermalPaste5">
+                        <label for="thermalPaste5"><span>現貨*</span> DeepCool Z5 (3g) 石墨烯散熱膏</label>
+                        <span class="price" data-price="38.00">$38.00</span>
+                      </div>
+                      <div class="dropdown-item">
+                        <input type="checkbox" id="thermalPaste6">
+                        <label for="thermalPaste6"><span>現貨*</span> Thermalright TF7 (2g) 高性能散熱膏</label>
+                        <span class="price" data-price="45.00">$45.00</span>
+                      </div>
+                      <div class="dropdown-item">
+                        <input type="checkbox" id="thermalPaste7">
+                        <label for="thermalPaste7"><span>現貨*</span> GELID GC-Extreme (3.5g) 極致導熱散熱膏</label>
+                        <span class="price" data-price="89.00">$89.00</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td class="quantity"></td>
+              <td class="function"></td>
+              <td class="price"></td>
+            </tr>
+            <tr>
+              <td>
+                <div class="custom-dropdown">
+                  <div class="dropdown-toggle" onclick="toggleDropdown(this)">CPU Buckles/Accessories --- 扣具/配件<div class="img"><img src="32.png"></div></div>
+                  <div class="dropdown-menu">
+                    <div class="dropdown-header">
+                      <div class="search-input">
+                        <input type="text" id="searchInputBuckles" placeholder="請輸入商品" onkeyup="filterItemsBuckles()">
+                      </div>
+                      <div class="price-filter">
+                        <label>價格:</label>
+                        <input type="number" id="minPriceBuckles" placeholder="" onkeyup="filterItemsBuckles()">
+                        <label>元以上~</label>
+                        <input type="number" id="maxPriceBuckles" placeholder="" onkeyup="filterItemsBuckles()">
+                        <label>元以下</label>
+                      </div>
+                      <select id="brandFilterBuckles" onchange="filterItemsBuckles()">
+                        <option value="">品牌: 全部</option>
+                        <option value="Noctua">Noctua</option>
+                        <option value="Thermalright">Thermalright</option>
+                        <option value="Cooler Master">Cooler Master</option>
+                      </select>
+                    </div>
+                    <div class="dropdown-content" id="bucklesDropdown">
+                      <div class="dropdown-item">
+                        <input type="checkbox" id="buckle1">
+                        <label for="buckle1"><span>現貨*</span> AM4 背板扣具套裝</label>
+                        <span class="price" data-price="49.00">$49.00</span>
+                      </div>
+                      <div class="dropdown-item">
+                        <input type="checkbox" id="buckle2">
+                        <label for="buckle2"><span>現貨*</span> LGA1700 安裝支架套裝</label>
+                        <span class="price" data-price="59.00">$59.00</span>
+                      </div>
+                      <div class="dropdown-item">
+                        <input type="checkbox" id="buckle3">
+                        <label for="buckle3"><span>現貨*</span> 通用散熱器扣具包 (多平台兼容)</label>
+                        <span class="price" data-price="79.00">$79.00</span>
+                      </div>
+                      <div class="dropdown-item">
+                        <input type="checkbox" id="buckle4">
+                        <label for="buckle4"><span>現貨*</span> Noctua NM-AM4 散熱器升級套件</label>
+                        <span class="price" data-price="89.00">$89.00</span>
+                      </div>
+                      <div class="dropdown-item">
+                        <input type="checkbox" id="buckle5">
+                        <label for="buckle5"><span>現貨*</span> Thermalright LGA1700-BCF 矯正框架</label>
+                        <span class="price" data-price="120.00">$120.00</span>
+                      </div>
+                      <div class="dropdown-item">
+                        <input type="checkbox" id="buckle6">
+                        <label for="buckle6"><span>現貨*</span> Cooler Master 通用扣具包</label>
+                        <span class="price" data-price="65.00">$65.00</span>
+                      </div>
+                      <div class="dropdown-item">
+                        <input type="checkbox" id="buckle7">
+                        <label for="buckle7"><span>現貨*</span> 水冷排安裝支架套裝</label>
+                        <span class="price" data-price="99.00">$99.00</span>
+                      </div>
+                      <div class="dropdown-item">
+                        <input type="checkbox" id="buckle8">
+                        <label for="buckle8"><span>現貨*</span> 風扇減震膠釘 (12cm/14cm)</label>
+                        <span class="price" data-price="25.00">$25.00</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </td>
+              <td class="quantity"></td>
+              <td class="function"></td>
+              <td class="price"></td>
+            </tr>
+            <tr><td><select><option>Case Cooling --- 機箱散熱配件 (可選多項)</option></select></td><td class="quantity"></td><td class="function"></td><td class="price"></td></tr>
+            <tr><td><select><option>Case Accessorie --- 機箱配件 (可選多項)</option></select></td><td class="quantity"></td><td class="function"></td><td class="price"></td></tr>
+            <tr><td><select><option>O/S --- 作業系統</option></select></td><td class="quantity"></td><td class="function"></td><td class="price"></td></tr>
+            <tr><td><select><option>Software --- 軟件</option></select></td><td class="quantity"></td><td class="function"></td><td class="price"></td></tr>
+            <tr><td><select><option>Monitor --- 顯示器</option></select></td><td class="quantity"></td><td class="function"></td><td class="price"></td></tr>
+            <tr><td><select><option>Gaming Monitor --- 電競顯示器</option></select></td><td class="quantity"></td><td class="function"></td><td class="price"></td></tr>
+            <tr><td><select><option>Keyboard/Mouse --- 鍵盤滑鼠</option></select></td><td class="quantity"></td><td class="function"></td><td class="price"></td></tr>
+            <tr><td><select><option>Gaming Gear --- 電競產品</option></select></td><td class="quantity"></td><td class="function"></td><td class="price"></td></tr>
+            <tr><td><select><option>Expansion Card --- 擴充卡</option></select></td><td class="quantity"></td><td class="function"></td><td class="price"></td></tr>
+            <tr><td><select><option>Sound Card --- 音效卡</option></select></td><td class="quantity"></td><td class="function"></td><td class="price"></td></tr>
+            <tr><td><select><option>Network --- 網絡設備</option></select></td><td class="quantity"></td><td class="function"></td><td class="price"></td></tr>
+            <tr><td><select><option>Custom Cooling 自組水冷 --- 訂製水冷/自組水冷</option></select></td><td class="quantity"></td><td class="function"></td><td class="price"></td></tr>
+            <tr><td><select><option>NAS --- 網絡儲存設備</option></select></td><td class="quantity"></td><td class="function"></td><td class="price"></td></tr>
+            <tr><td><select><option>Speaker/Headset --- 耳機/喇叭</option></select></td><td class="quantity"></td><td class="function"></td><td class="price"></td></tr>
+            <tr><td><select><option>Desktop --- 原廠電腦</option></select></td><td class="quantity"></td><td class="function"></td><td class="price"></td></tr>
+            <tr><td><select><option>ROM --- 光碟機</option></select></td><td class="quantity"></td><td class="function"></td><td class="price"></td></tr>
+            <tr><td><select><option>Web Cam 視像鏡頭機</option></select></td><td class="quantity"></td><td class="function"></td><td class="price"></td></tr>
+            <tr><td><select><option>Barebone PC --- 準系統</option></select></td><td class="quantity"></td><td class="function"></td><td class="price"></td></tr>
+            <tr><td><select><option>Notebook --- 手提電腦</option></select></td><td class="quantity"></td><td class="function"></td><td class="price"></td></tr>
+            <tr><td><select><option>Cable --- 線材 (可選多項)</option></select></td><td class="quantity"></td><td class="function"></td><td class="price"></td></tr>
+            <tr><td><select><option>直播產品</option></select></td><td class="quantity"></td><td class="function"></td><td class="price"></td></tr>
+            <tr><td><select><option>DIY TOOLS --- 砌機工具</option></select></td><td class="quantity"></td><td class="function"></td><td class="price"></td></tr>
+            <tr><td><select><option>EXT HDD --- 外置式硬碟機</option></select></td><td class="quantity"></td><td class="function"></td><td class="price"></td></tr>
+            <tr><td><select><option>優惠</option></select></td><td class="quantity"></td><td class="function"></td><td class="price"></td></tr>
+            <tr><td><select><option>OTHER</option></select></td><td class="quantity"></td><td class="function"></td><td class="price"></td></tr>
+            <tr><td><select><option>Mining 礦工專區</option></select></td><td class="quantity"></td><td class="function"></td><td class="price"></td></tr>
+            <tr><td><select><option>Service --- 專業服務</option></select></td><td class="quantity"></td><td class="function"></td><td class="price"></td></tr>
+          </tbody>
+        </table>
+        <div class="quote-actions">
+          <div class="action-buttons">
+            <button class="btn">更改配置</button>
+            <button class="btn">全部取消</button>
+            <button class="btn">匯出成Excel</button>
+            <button class="btn">列印報價單</button>
+            <button class="btn">分享圖片</button>
+          </div>
+          <div class="action-buttons">
+            <button class="secondary"><< 儲存報價單</button>
+            <button class="primary">立即購買 >></button>
+          </div>
+        </div>
+        
+        <div class="quote-disclaimer0">
+          <p>由於每天商品價格會異動，本報價單報價僅限當日有效</p>
+        </div>
+        <div class="quote-disclaimer">
+          <h4>產品名稱所顯示[標籤]介紹：</h4>
+          <ul class="tag-descriptions">
+            <li><strong>現貨*</strong> 現貨*產品,可使用特快/特急送貨(組裝電腦請先查詢)</li>
+            <li><strong>現貨*</strong> 限時現貨*售完即止</li>
+            <li><strong>免費送貨</strong> 電子付款免費送貨</li>
+            <li><strong>加購優惠</strong> 加購可獲折扣</li>
+            <li><strong>組合優惠</strong> 同購組合可獲折扣</li>
+            <li><strong>訂貨</strong> 產品需要訂貨(因應不同產品貨期可能不同,有需要可先查詢)</li>
+            <li><strong>隔日到貨</strong> 根據上次來貨推算訂貨最快一個工作天</li>
+          </ul>
+          <div class="delivery-info">
+            <img src="28.png" alt="CHing~救命呀!!">
+          </div>
+          <div class="contact-info">
+            <img src="29.png" alt="CHing~救命呀!!">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="site-footer" id="footer-section">
+    <div class="container">
+      <div class="footer-col">
+        <h3>服務保證</h3>
+        <ul>
+          <li>產品保用／質量保證</li>
+          <li>14天有壞包換保證</li>
+          <li>得獎項目／用家評論</li>
+          <li>退貨及更換</li>
+          <li>產品環保責任條例</li>
+          <li>除害服務條款</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>售後服務</h3>
+        <ul>
+          <li>技術支援</li>
+          <li>下載</li>
+          <li>代理資料</li>
+          <li>電腦組合支援</li>
+          <li>上門服務</li>
+          <li>改裝升級</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>其他</h3>
+        <ul>
+          <li>行家／生意合作</li>
+          <li>電腦租借服務</li>
+          <li>FACEBOOK專頁</li>
+          <li>自選主機圖庫</li>
+          <li>二手回收</li>
+          <li>代訂舊款零件</li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Toggle 新手上路 Menu
+      const newbieBtn = document.getElementById('newbie-btn');
+      const newbieMenu = document.getElementById('newbie-menu');
+      
+      newbieBtn.addEventListener('click', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        newbieMenu.style.display = newbieMenu.style.display === 'block' ? 'none' : 'block';
+        document.querySelector('.payment-dropdown-content').style.display = 'none';
+      });
+
+      // Toggle Payment Methods Dropdown
+      const paymentLink = document.getElementById('payment-methods');
+      const paymentDropdown = document.querySelector('.payment-dropdown-content');
+      
+      paymentLink.addEventListener('click', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        paymentDropdown.style.display = paymentDropdown.style.display === 'block' ? 'none' : 'block';
+        newbieMenu.style.display = 'none';
+      });
+
+      // Close dropdowns when clicking elsewhere
+      document.addEventListener('click', e => {
+        if (!e.target.closest('.dropdown-container')) {
+          newbieMenu.style.display = 'none';
+          paymentDropdown.style.display = 'none';
+        }
+        if (!e.target.closest('.custom-dropdown')) {
+          document.querySelectorAll('.dropdown-menu').forEach(menu => {
+            menu.classList.remove('open');
+          });
+        }
+      });
+      
+      // Smooth scroll to footer
+      document.querySelector('a[href="#footer-section"]').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('footer-section').scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+
+    function toggleDropdown(element) {
+      const menu = element.nextElementSibling;
+      document.querySelectorAll('.dropdown-menu').forEach(m => {
+        if (m !== menu) m.classList.remove('open');
+      });
+      menu.classList.toggle('open');
+    }
+
+    function filterItems() {
+      const searchText = document.getElementById('searchInput').value.toLowerCase();
+      const minPrice = parseFloat(document.getElementById('minPrice').value) || 0;
+      const maxPrice = parseFloat(document.getElementById('maxPrice').value) || Infinity;
+      const selectedBrand = document.getElementById('brandFilter').value.toLowerCase();
+
+      const items = document.querySelectorAll('.dropdown-item');
+      items.forEach(item => {
+        const label = item.querySelector('label').textContent.toLowerCase();
+        const price = parseFloat(item.querySelector('.price').dataset.price);
+        const brandMatch = selectedBrand ? label.includes(selectedBrand.toLowerCase()) : true;
+        const priceMatch = price >= minPrice && price <= maxPrice;
+        const textMatch = label.includes(searchText);
+
+        if (textMatch && priceMatch && brandMatch) {
+          item.style.display = 'flex';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+  </script>
+</body>
+</html>

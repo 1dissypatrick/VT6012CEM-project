@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>未來科技電腦有限公司 | Future Technology Computer LTD</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    @import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css");
+    :root {
+      --bg: #F5F5F5;
+      --white: #FFFFFF;
+      --dark: #1F2023;
+      --muted: #6B6C72;
+      --accent: #D4B76F;
+      --accent-hover: #C2AA7E;
+      --spacing: 1rem;
+      --radius: 0.5rem;
+      --transition: 0.3s;
+    }
+    * { box-sizing: border-box; margin:0; padding:0; }
+    body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--dark); line-height:1.5; }
+    a, button { color:inherit; text-decoration:none; background:none; border:none; font:inherit; cursor:pointer; }
+    img { display:block; max-width:100%; height:auto; }
+    .container { width:min(90%,1200px); margin:0 auto; }
+    .flex { display:flex; }
+    .justify-between { justify-content:space-between; }
+    .items-center { align-items:center; }
+    .items-start  { align-items:flex-start; }
+    .gap { gap:var(--spacing); }
+    
+    /* Top Bar */
+    header.top-bar { background:var(--white); font-size:0.9rem; border-bottom:1px solid #EEE; }
+    header.top-bar .container { padding:0.5rem 0; display:flex; justify-content:space-between; align-items:center; }
+    .company-info { display:flex; align-items:center; gap:0.5rem; }
+    .company-info img { height:40px; }
+    .company-info h1 { font-size:1rem; font-weight:700; }
+    .company-info span { font-size:0.85rem; color:var(--muted); }
+    .member-nav a { margin:0 0.5rem; padding:0.25rem; transition:color var(--transition); }
+    .member-nav a:hover { color:var(--accent); }
+    .cart-summary { font-size:0.85rem; color:var(--muted); }
+    
+    /* Main Header */
+    header.main-header { background:var(--white); box-shadow:0 2px 6px rgba(0,0,0,0.05); position:sticky; top:0; z-index:100; }
+    header.main-header .container { display:flex; justify-content:space-between; align-items:center; height:60px; }
+    .nav-primary { display:flex; align-items:center; }
+    .nav-primary a,
+    .nav-primary button {
+      margin:0 0.5rem;
+      font-weight:600;
+      padding:0.5rem;
+      border-radius:var(--radius);
+      transition:background var(--transition);
+      position: relative;
+    }
+    .nav-primary a:hover,
+    .nav-primary button:hover { background:rgba(212,183,111,0.1); }
+    
+    /* Dropdown styles */
+    .dropdown-container {
+      position: relative;
+      display: inline-block;
+    }
+    
+    /* 新手上路 Dropdown */
+    .newbie-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: var(--white);
+      border: 1px solid #EEE;
+      border-radius: var(--radius);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: var(--spacing);
+      z-index: 200;
+      min-width: 200px;
+    }
+    .newbie-menu ul { list-style:none; margin:0; padding:0; }
+    .new5bie-menu li {
+      font-size:0.95rem;
+      color:var(--dark);
+      margin-bottom:0.5rem;
+      white-space: nowrap;
+      cursor: pointer;
+      padding: 0.25rem 0;
+    }
+    .newbie-menu li:hover { color: var(--accent); }
+    .newbie-menu li:last-child { margin-bottom:0; }
+    
+    /* 付款方式 Dropdown */
+    .payment-dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: var(--white);
+      border: 1px solid #EEE;
+      border-radius: var(--radius);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: var(--spacing);
+      z-index: 200;
+      width: 200px;
+    }
+    .payment-dropdown-content img {
+      width: 100%;
+      height: auto;
+      border-radius: var(--radius);
+    }
+    
+    /* Layout */
+    .layout { 
+      display:grid; 
+      grid-template-columns: 220px 1fr 220px; /* Adjusted for left sidebar, main content, and right sidebar */
+      gap: 0.75rem; 
+      margin-top: var(--spacing); 
+    }
+    aside.left-sidebar { 
+      background: var(--white); 
+      padding: var(--spacing); 
+      border-radius: var(--radius); 
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05); 
+    }
+    aside.left-sidebar ul { list-style:none; }
+    aside.left-sidebar li { margin-bottom:0.75rem; }
+    aside.left-sidebar li a { font-size:0.95rem; transition:color var(--transition); }
+    aside.left-sidebar li a:hover { color:var(--accent); }
+    
+    /* Main Content Styles */
+    main { 
+      background: var(--white); 
+      padding: var(--spacing); 
+      border-radius: var(--radius); 
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05); 
+    }
+    
+    /* Search Bar */
+    .search-bar { margin-top:var(--spacing) 0; display:grid; grid-template-columns:1fr auto; gap:0.5rem; }
+    .search-bar input { padding:0.75rem 1rem; border:1px solid var(--muted); border-radius:var(--radius); }
+    .search-bar button { background:var(--accent); color:var(--white); border:none; padding:0.75rem 1.5rem; border-radius:var(--radius); font-weight:600; cursor:pointer; transition:background var(--transition); }
+    .search-bar button:hover { background:var(--accent-hover); }
+    /* Added style for the footer anchor target */
+    
+    
+    /* Promotional Text */
+    .promo-text1 {
+      margin-top: 0.3rem;
+      margin-bottom: 0.3rem;
+      font-size: 0.8rem;
+      display: flex;
+      color: orange;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .promo-text2 {
+      margin-bottom: 0.3rem;
+      font-size: 0.8rem;
+      display: flex;
+      color: black;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .promo-text3 {
+      margin-bottom: 0.3rem;
+      font-size: 0.8rem;
+      display: flex;
+      color: purple;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .promo-text span {
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+    }
+    
+    /* Promotional Banners */
+    .promo-banners {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .banner {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: transform var(--transition);
+    }
+    .banner:hover {
+      transform: scale(1.02);
+    }
+    .banner img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .banner-bigger img {
+      width: 100%;
+      
+      object-fit: cover;
+    }
+
+    .banner-middle img {
+      width: 100%;
+      
+      object-fit: cover;
+    }
+
+    .banner-branch img {
+      width: 100%;
+      object-fit: cover;
+    }
+    
+    /* Right Sidebar */
+    aside.right-sidebar {
+      background: var(--white);
+      padding: 10px;
+      
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    .sidebar-item {
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+      border: 1px solid #EEE; /* Added border */
+      padding: 0.5rem;
+      
+    }
+    .sidebar-item img {
+      width: 100%;
+      
+    }
+    .sidebar-item a {
+      color: blue;
+      text-decoration: none;
+    }
+    .sidebar-item a:hover {
+      text-decoration: underline;
+    }
+    .sidebar-item input {
+      width: 100%;
+      padding: 0.1rem;
+      border: 1px solid #EEE;
+      margin-top: 10px;
+      font-size: 0.9rem;
+    }
+    .sidebar-item button{
+      background-color: orange;
+      color: white;
+      padding: 0.2rem;
+      margin-top: 5px;
+      border: none;
+      border-radius: 0.25rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    
+    .sidebar-item1 {
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+      border: 1px solid #EEE; /* Added border */
+      padding: 0.5rem;
+      
+    }
+    .sidebar-item1 input {
+      width: 100%;
+      padding: 0.1rem;
+      border: 1px solid #EEE;
+      margin-top: 10px;
+      font-size: 0.9rem;
+    }
+    .sidebar-item1 button{
+      background-color: orange;
+      color: white;
+      padding: 0.2rem;
+      margin-top: 5px;
+      border: none;
+      border-radius: 0.25rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .sidebar-item2 {
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+      border: 1px solid #EEE; /* Added border */
+      padding: 0.5rem;
+      
+    }
+    .sidebar-item2 a {
+      color: blue;
+      text-decoration: none;
+    }
+    .sidebar-item2 a:hover {
+      text-decoration: underline;
+    }
+    
+    .sidebar-item2 button{
+      background-color: rgb(49, 79, 119);
+      color: white;
+      padding: 0.2rem;
+      margin-top: 5px;
+      border: none;
+      border-radius: 0.25rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .button-like button::before{
+      content: "\f164"; /* Font Awesome thumbs-up icon (Unicode) */
+      font-family: "Font Awesome 6 Free";
+      font-weight: 900;
+      margin-right: 0.5rem;
+    }
+    .sidebar-item3 {
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+      border: 1px solid #EEE; /* Added border */
+      padding: 0.5rem;
+      
+    }
+    .sidebar-item3 a {
+      color: #333;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+    .sidebar-item3 ul {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+    }
+    .sidebar-item3 li {
+      margin-bottom: 5px;
+      padding-left: 15px;
+      position: relative;
+      font-size: 14px;
+    }
+    .sidebar-item3 a:hover {
+      color: #d4b76f;
+    }
+    .sidebar-item3 li:before {
+      content: "•";
+      color: #d4b76f;
+      position: absolute;
+      left: 0;
+    }
+    .sidebar-item label {
+      font-size: 0.9rem;
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    
+    /* Footer */
+    footer.site-footer {
+      background: var(--white);
+      border-top: 1px solid #EEE;
+      padding: var(--spacing) 0;
+      margin-top: var(--spacing);
+    }
+    footer.site-footer .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    footer.site-footer .footer-col {
+      flex: 1;
+      padding: 0 var(--spacing);
+    }
+    footer.site-footer h3 {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+      color: var(--dark);
+    }
+    footer.site-footer ul { list-style: none; }
+    footer.site-footer li {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 0.25rem;
+    }
+    #footer-section {
+      scroll-margin-top: 100px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Top Bar -->
+  <header class="top-bar">
+    <div class="container flex justify-between items-center">
+      <div class="company-info">
+        <img src="logo.jpg" alt="Logo">
+        <div>
+          <h1>未來科技電腦有限公司</h1>
+          <span>Future Technology Computer LTD</span>
+        </div>
+      </div>
+      <nav class="member-nav">
+        <a href="Home.html">回首頁</a>
+        <a href="#">最新商品</a>
+        <a href="#">幫助中心</a>
+        <a href="#">購物車</a>
+        <a href="#">會員登入</a> |
+        <a href="#">加入會員</a>
+      </nav>
+      <a href="#" ><div class="cart-summary">您的購物車中有0件商品, 總計金額 HKS0.00</div></a>
+    </div>
+  </header>
+
+  <!-- Main Header -->
+  <header class="main-header">
+    <div class="container flex justify-between items-center">
+      <nav class="nav-primary">
+        <!-- 新手上路 按鈕與選單 -->
+        <div class="dropdown-container">
+          <button id="newbie-btn">新手上路</button>
+          <div id="newbie-menu" class="newbie-menu">
+            <ul>
+              <li>購物流程</li>
+              <li>訂購方式</li>
+              <li>訂單處理程序</li>
+              <li>問題集</li>
+              <li>組裝流程介紹</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 付款方式 dropdown -->
+        <div class="dropdown-container">
+          <a href="#" id="payment-methods">付款方式</a>
+          <div class="payment-dropdown-content">
+            <img src="5.png" alt="Payment Methods">
+          </div>
+        </div>
+
+        <a href="#">訂購方式</a>
+        <a href="#">聯絡我們</a>
+        <a href="Computer combinations.html">自選組裝</a>
+        <a href="#">電腦組合</a>
+        <a href="#">手提電腦</a>
+        <a href="Original computer.html">原廠電腦</a>
+        <a href="#">商業客戶專區</a>
+        <a href="Online Enquiry.html">網上查詢</a>
+        <a href="#">電腦租用</a>
+        <a href="#footer-section">其他服務</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <div class="container">
+    <div class="layout">
+      <!-- Left Sidebar -->
+      <aside class="left-sidebar">
+        <ul>
+          <li><a href="#">清貨專區</a></li>
+          <li><a href="#">*BELKIN專區*</a></li>
+          <li><a href="#">*MOMAX專區*</a></li>
+          <li><a href="#">Desktop電腦組合</a></li>
+          <li><a href="#">Powered by ASUS</a></li>
+          <li><a href="#">CPU 中央處理器</a></li>
+          <li><a href="#">Mainboard 主機板</a></li>
+          <li><a href="#">Display Card 顯示卡</a></li>
+          <li><a href="#">Combo 升級精選</a></li>
+          <li><a href="#">NoteBook 手提電腦</a></li>
+          <li><a href="#">Ram 記憶體</a></li>
+          <li><a href="#">SSD 固態硬碟</a></li>
+          <li><a href="#">SSD M.2</a></li>
+          <li><a href="#">SSD 2.5</a></li>
+          <li><a href="#">ASUS X EVA-02 聯名商品</a></li>
+          <li><a href="#">HardDisk 硬碟機</a></li>
+          <li><a href="#">Power Supply 電源</a></li>
+          <li><a href="#">PSU Cable 模組線</a></li>
+          <li><a href="#">Case 電腦機箱</a></li>
+          <li><a href="#">Case Accessory 機箱配件</a></li>
+          <li><a href="#">Case Fans 機箱風扇</a></li>
+          <li><a href="#">DIY Tools 砌機工具</a></li>
+          <li><a href="#">Monitor 顯示器</a></li>
+          <li><a href="#">顯示器配件</a></li>
+          <li><a href="#">GAMING MON 電競螢幕</a></li>
+          <li><a href="#">Speaker 喇叭</a></li>
+          <li><a href="#">Gaming 電競產品</a></li>
+          <li><a href="#">Gaming Chair 電腦桌/椅</a></li>
+          <li><a href="#">Gaming Headset/Mic</a></li>
+          <li><a href="#">Gaming Keyboard 電競鍵盤</a></li>
+          <li><a href="#">Gaming Mouse 電競滑鼠</a></li>
+          <li><a href="#">Gaming MousePad</a></li>
+          <li><a href="#">CPU Cooling 處理器散熱</a></li>
+          <li><a href="#">Custom Cooling 自組水冷</a></li>
+          <li><a href="#">Keyboard Mouse 鍵盤滑鼠</a></li>
+          <li><a href="#">Keyboard鍵盤</a></li>
+          <li><a href="#">Mouse滑鼠</a></li>
+          <li><a href="#">OS 作業系統</a></li>
+          <li><a href="#">直播產品</a></li>
+          <li><a href="#">Ext HDD/SSD 外置式儲存媒體</a></li>
+          <li><a href="#">Software 商用軟件</a></li>
+          <li><a href="#">Cable 線材</a></li>
+          <li><a href="#">Computer 原廠電腦</a></li>
+          <li><a href="#">Wacom專業繪圖板</a></li>
+          <li><a href="#">VR虛擬實境眼鏡</a></li>
+          <li><a href="#">Printer 打印機</a></li>
+          <li><a href="#">Ink 打印耗材</a></li>
+          <li><a href="#">TV 電視</a></li>
+          <li><a href="#">NAS 網絡儲存設備</a></li>
+          <li><a href="#">Network 網絡設備</a></li>
+          <li><a href="#">ROM 光碟機</a></li>
+          <li><a href="#">IP Camera 網路攝影機</a></li>
+          <li><a href="#">Webcam 攝影機</a></li>
+          <li><a href="#">DVD Writer 外置</a></li>
+          <li><a href="#">MemoryCard 記憶卡</a></li>
+          <li><a href="#">USB 記憶體</a></li>
+          <li><a href="#">外置硬碟盒</a></li>
+          <li><a href="#">Barebone PC準系統</a></li>
+          <li><a href="#">Other 其他產品</a></li>
+          <li><a href="#">Sound Card 音效卡</a></li>
+          <li><a href="#">Addon Card 擴充咭</a></li>
+          <li><a href="#">Web Cam 視像攝影機</a></li>
+          <li><a href="#">Raid Card</a></li>
+          <li><a href="#">Projector 投影機</a></li>
+          <li><a href="#">UPS 後備電源</a></li>
+          <li><a href="#">Capture 影像擷取裝置</a></li>
+          <li><a href="#">SCANNER 掃瞄器</a></li>
+          <li><a href="#">ATEN 切換器</a></li>
+          <li><a href="#">ORICO 電腦配件</a></li>
+          <li><a href="#">Notebook 電池/電源</a></li>
+          <li><a href="#">Office Accessori辨公用品</a></li>
+          <li><a href="#">CCTV 閉路電視</a></li>
+          <li><a href="#">Power Strip 拖板</a></li>
+          <li><a href="#">3M螢幕保護貼</a></li>
+          <li><a href="#">Notebook 擴充升級</a></li>
+          <li><a href="#">Screen Protector保護貼</a></li>
+          <li><a href="#">Thermal paste 散熱膏/貼</a></li>
+          <li><a href="#">Tablet平板電腦</a></li>
+          <li><a href="#">Insta</a></li>
+          <li><a href="#">DJI</a></li>
+          <li><a href="#">Mining 礦工專區</a></li>
+          <li><a href="#">手機配件</a></li>
+          <li><a href="#">*優惠*</a></li>
+          <li><a href="#">生活百貨</a></li>
+          <li><a href="#">電腦租用</a></li>
+          <li><a href="#">Service 專業服務</a></li>
+        </ul>
+      </aside>
+
+      <!-- Main Content -->
+      <main>
+        <!-- Search Bar -->
+        <div class="search-bar">
+          <input type="text" placeholder="特快智能搜尋商品">
+          <button>搜尋</button>
+        </div>
+
+        <div class="promo-text1">
+          <span>【Server硬碟全線熱賣中】</span>
+          <div class="promo-text2">
+          <span>【熱賣中！i5電腦組合只售$2799】</span></div>
+          <div class="promo-text3">
+          <span>【打造自訂心水電腦-全線免費送貨】</span>
+        </div>
+        </div>
+
+        <!-- Promotional Banners -->
+        <div class="promo-banners">
+          <div class="banner-bigger">
+            <img src="6.png" alt="Corsair iCUE LINA TITAN EK RGB">
+          </div>
+          <div class="banner">
+            <img src="7.png" alt="DeepSeek-R1">
+          </div>
+          <div class="banner">
+            <img src="8.png" alt="Gaming Set">
+          </div>
+          <div class="banner">
+            <img src="9.png" alt="Notebook Starting at $1988">
+          </div>
+          <div class="banner">
+            <img src="15.png" alt="DeepSeek-R1">
+          </div>
+          <div class="banner">
+            <img src="16.png" alt="Gaming Set">
+          </div>
+          <div class="banner">
+            <img src="17.png" alt="Notebook Starting at $1988">
+          </div>
+          <div class="banner-branch">
+            <img src="18.png" alt="DeepSeek-R1">
+          </div>
+          <div class="banner-middle">
+            <img src="19.png" alt="Gaming Set">
+          </div>
+          <div class="banner-middle">
+            <img src="20.png" alt="Notebook Starting at $1988">
+          </div>
+          <div class="banner-middle">
+            <img src="21.png" alt="Notebook Starting at $1988">
+          </div>
+        </div>
+      </main>
+
+      <!-- Right Sidebar -->
+      <aside class="right-sidebar">
+        <div class="sidebar-item1">
+          訂單查詢
+          <input type="text" placeholder="請輸入訂單號/快遞號">
+          <button>查詢該訂單</button>
+        </div>
+        <div class="sidebar-item2">
+          <h4>商店公告</h4>
+          <div class="button-like">
+          <button>讚 1.9 萬</button>
+        </div>
+          <a href="#">讚好以獲得本公司最新優惠</a>
+          <img src="11.png" alt="Free Shipping Promotion">
+        </div>
+        <div class="sidebar-item">
+          <img src="12.png" alt="7-Day Return Policy">
+        </div>
+        <div class="sidebar-item">
+          <img src="13.png" alt="24/7 Customer Support">
+        </div>
+        <div class="sidebar-item">
+          <img src="14.png" alt="Payment Methods">
+        </div>
+        <div class="sidebar-item3">
+          <h4>最新文章</h4>
+    <ul>
+      <li><a href="#">電腦租用</a></li>
+      <li><a href="#">ASUS X EVA</a></li>
+      <li><a href="#">Power</a></li>
+      <li><a href="#">mining</a></li>
+      <li><a href="#">ASUS X GUNDAM</a></li>
+    </ul>
+        </div>
+        
+      </aside>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer" id="footer-section">
+    <div class="container">
+      <div class="footer-col">
+        <h3>服務保證</h3>
+        <ul>
+          <li>產品保用／質量保證</li>
+          <li>14天有壞包換保證</li>
+          <li>得獎項目／用家評論</li>
+          <li>退貨及更換</li>
+          <li>產品環保責任條例</li>
+          <li>除害服務條款</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>售後服務</h3>
+        <ul>
+          <li>技術支援</li>
+          <li>下載</li>
+          <li>代理資料</li>
+          <li>電腦組合支援</li>
+          <li>上門服務</li>
+          <li>改裝升級</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>其他</h3>
+        <ul>
+          <li>行家／生意合作</li>
+          <li>電腦租借服務</li>
+          <li>FACEBOOK專頁</li>
+          <li>自選主機圖庫</li>
+          <li>二手回收</li>
+          <li>代訂舊款零件</li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Toggle 新手上路 Menu
+      const newbieBtn = document.getElementById('newbie-btn');
+      const newbieMenu = document.getElementById('newbie-menu');
+      
+      newbieBtn.addEventListener('click', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        newbieMenu.style.display = newbieMenu.style.display === 'block' ? 'none' : 'block';
+        
+        // Close payment dropdown if open
+        document.querySelector('.payment-dropdown-content').style.display = 'none';
+      });
+
+      // Toggle Payment Methods Dropdown
+      const paymentLink = document.getElementById('payment-methods');
+      const paymentDropdown = document.querySelector('.payment-dropdown-content');
+      
+      paymentLink.addEventListener('click', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        paymentDropdown.style.display = paymentDropdown.style.display === 'block' ? 'none' : 'block';
+        
+        // Close newbie menu if open
+        newbieMenu.style.display = 'none';
+      });
+
+      // Close dropdowns when clicking elsewhere
+      document.addEventListener('click', e => {
+        if (!e.target.closest('.dropdown-container')) {
+          newbieMenu.style.display = 'none';
+          paymentDropdown.style.display = 'none';
+        }
+      });
+      
+      // Smooth scroll to footer when clicking "其他服務"
+      document.querySelector('a[href="#footer-section"]').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('footer-section').scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+  </script>
+</body>
+</html>

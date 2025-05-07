@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>未來科技電腦有限公司 | Future Technology Computer LTD</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #F5F5F5;
+      --white: #FFFFFF;
+      --dark: #1F2023;
+      --muted: #6B6C72;
+      --accent: #D4B76F;
+      --accent-hover: #C2AA7E;
+      --spacing: 1rem;
+      --radius: 0.5rem;
+      --transition: 0.3s;
+      /* Self-quote specific (for consistency with first file) */
+      --orange: #FFA500;
+      --bg-light: #FFF7E0;
+      --border: #E0D6C2;
+    }
+    * { box-sizing: border-box; margin:0; padding:0; }
+    body { font-family:'Inter',sans-serif; background:var(--bg); color:var(--dark); line-height:1.5; }
+    a, button { color:inherit; text-decoration:none; background:none; border:none; font:inherit; cursor:pointer; }
+    img { display:block; max-width:100%; height:auto; }
+    .container { width:min(90%,1200px); margin:0 auto; }
+    .flex { display:flex; }
+    .justify-between { justify-content:space-between; }
+    .items-center { align-items:center; }
+    .gap { gap:var(--spacing); }
+
+    /* Top bar */
+    header.top-bar { background:var(--white); font-size:0.9rem; border-bottom:1px solid #EEE; }
+    header.top-bar .container { padding:0.5rem 0; display:flex; justify-content:space-between; align-items:center; }
+    .company-info { display:flex; align-items:center; gap:0.5rem; }
+    .company-info img { height:40px; }
+    .company-info h1 { font-size:1rem; font-weight:700; }
+    .company-info span { font-size:0.85rem; color:var(--muted); }
+    .member-nav a { margin:0 0.5rem; padding:0.25rem; transition:color var(--transition); }
+    .member-nav a:hover { color:var(--accent); }
+    .cart-summary { font-size:0.85rem; color:var(--muted); }
+
+    /* Main Header */
+    header.main-header { 
+      background:var(--white); 
+      box-shadow:0 2px 6px rgba(0,0,0,0.05); 
+      position:sticky; 
+      top:0; 
+      z-index:100; 
+    }
+    header.main-header .container { 
+      display:flex; 
+      justify-content:space-between; 
+      align-items:center; 
+      height:60px; 
+    }
+    .logo img { height:40px; }
+    .nav-primary { display:flex; align-items:center; }
+    .nav-primary a,
+    .nav-primary button {
+      margin:0 0.5rem;
+      font-weight:600;
+      padding:0.5rem;
+      border-radius:var(--radius);
+      transition:background var(--transition);
+      position: relative;
+    }
+    .nav-primary a:hover,
+    .nav-primary button:hover { 
+      background:rgba(212,183,111,0.1); 
+    }
+
+    /* Dropdown styles - Consistent with previous design */
+    .dropdown-container {
+      position: relative;
+      display: inline-block;
+    }
+    
+    /* 新手上路 Dropdown */
+    .newbie-menu {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: var(--white);
+      border: 1px solid #EEE;
+      border-radius: var(--radius);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: var(--spacing);
+      z-index: 200;
+      min-width: 200px;
+    }
+    .newbie-menu ul { list-style:none; margin:0; padding:0; }
+    .newbie-menu li {
+      font-size:0.95rem;
+      color:var(--dark);
+      margin-bottom:0.5rem;
+      white-space: nowrap;
+      cursor: pointer;
+      padding: 0.25rem 0;
+    }
+    .newbie-menu li:hover { color: var(--accent); }
+    .newbie-menu li:last-child { margin-bottom:0; }
+    
+    /* 付款方式 Dropdown */
+    .payment-dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      background: var(--white);
+      border: 1px solid #EEE;
+      border-radius: var(--radius);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      padding: var(--spacing);
+      z-index: 200;
+      width: 200px;
+    }
+    .payment-dropdown-content img {
+      width: 100%;
+      height: auto;
+      border-radius: var(--radius);
+    }
+
+    /* Search (used in footer) */
+    .footer-search-bar {
+      margin: var(--spacing) 0;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.5rem;
+    }
+    .footer-search-bar input {
+      padding: 0.75rem 1rem;
+      border: 1px solid var(--muted);
+      border-radius: var(--radius);
+    }
+    .footer-search-bar button {
+      background: var(--accent);
+      color: var(--white);
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: var(--radius);
+      font-weight: 600;
+      cursor: pointer;
+      transition: background var(--transition);
+    }
+    .footer-search-bar button:hover {
+      background: var(--accent-hover);
+    }
+    .tip { font-size:0.85rem; color:var(--muted); margin-bottom:var(--spacing); }
+
+    /* Secondary Nav */
+    nav.secondary { display:grid; grid-auto-flow:column; gap:var(--spacing); font-size:0.9rem; color:var(--muted); margin-bottom:var(--spacing); }
+    nav.secondary a { padding-bottom:0.25rem; border-bottom:2px solid transparent; transition:border-color var(--transition),color var(--transition); }
+    nav.secondary a:hover { border-color:var(--accent); color:var(--dark); }
+
+    /* Layout */
+    .layout { display:grid; grid-template-columns:220px 1fr; gap:var(--spacing); }
+    aside { background:var(--white); padding:var(--spacing); border-radius:var(--radius); box-shadow:0 2px 6px rgba(0,0,0,0.05); }
+    aside ul { list-style:none; }
+    aside li { margin-bottom:0.75rem; }
+    aside li a { font-size:0.95rem; transition:color var(--transition); }
+    aside li a:hover { color:var(--accent); }
+
+    /* Main Content */
+    main {
+      background: var(--white);
+      padding: var(--spacing);
+      border-radius: var(--radius);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      display: flex;
+      flex-direction: column;
+      gap: var(--spacing);
+    }
+    .breadcrumb { font-size:0.85rem; color:var(--muted); }
+    .display-options { display:flex; flex-wrap:wrap; gap:0.75rem; font-size:0.85rem; }
+    .display-options button { background:none; border:none; padding:0.5rem; cursor:pointer; transition:color var(--transition); }
+    .display-options button:hover { color:var(--accent); }
+
+    /* Search Bar (for main content, as per new code) */
+    .search-bar {
+      margin-bottom: 0.5rem; /* Reduced spacing below search bar */
+    }
+    .search-bar input[type="text"] {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #EEE;
+      border-radius: var(--radius);
+      font-size: 0.95rem;
+      background: #F9F9F9;
+    }
+    .search-bar input[type="text"]::placeholder {
+      color: var(--muted);
+    }
+    .search-bar input[type="text"]:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    /* Promotional Banners (for main content, as per new code) */
+    .promo-banners {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem; /* Reduced gap between banners */
+      margin-bottom: 0.5rem; /* Reduced spacing below the last banner */
+    }
+    .banner {
+      position: relative;
+      border-radius: var(--radius);
+      overflow: hidden;
+      transition: transform var(--transition);
+    }
+    .banner:hover {
+      transform: scale(1.02);
+    }
+    .banner img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    /* Filters */
+    .filters { display:grid; grid-template-columns:auto auto auto; align-items:center; gap:var(--spacing); padding:var(--spacing); background:var(--white); border-radius:var(--radius); box-shadow:0 2px 6px rgba(0,0,0,0.05); }
+    .filters .brands { display:flex; flex-wrap:wrap; gap:0.5rem; align-items:center; }
+    .filters .brands span { font-weight:600; }
+    .filters .brands a { font-size:0.85rem; color:var(--muted); transition:color var(--transition); }
+    .filters .brands a:hover, .filters .brands a.active { color:var(--dark); }
+    .filters .price { display:flex; align-items:center; gap:0.5rem; }
+    .filters .price input { width:100px; padding:0.5rem; border:1px solid var(--muted); border-radius:var(--radius); }
+    .filters .reset { background:none; border:none; color:var(--accent); font-weight:600; cursor:pointer; }
+
+    /* Banners */
+    .banners { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:var(--spacing); }
+    .banners img { border-radius:var(--radius); box-shadow:0 2px 6px rgba(0,0,0,0.05); }
+
+    /* Enquiry Form */
+    .enquiry-form {
+      background: var(--white);
+      padding: var(--spacing);
+      border-radius: var(--radius);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+    
+    .enquiry-form form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--spacing);
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .enquiry-form label {
+      display: flex;
+      flex-direction: column;
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+    .enquiry-form img {
+      margin-left: 465px;
+      width: 50%;
+      margin-bottom: var(--spacing);
+      
+    }
+    .enquiry-form input[type="text"],
+    .enquiry-form input[type="email"],
+    .enquiry-form input[type="file"],
+    .enquiry-form select,
+    .enquiry-form textarea {
+      margin-top: 0.25rem;
+      padding: 0.5rem;
+      border: 1px solid var(--muted);
+      border-radius: var(--radius);
+      font-size: 0.9rem;
+      width: 100%;
+    }
+    .enquiry-form textarea {
+      grid-column: span 2;
+      min-height: 200px;
+      resize: vertical;
+    }
+    .enquiry-form .full-width {
+      grid-column: span 2;
+    }
+    .enquiry-form .note {
+      font-size: 0.85rem;
+      color: #c0392b;
+      margin-top: 0.25rem;
+    }
+    .enquiry-form button {
+      grid-column: span 2;
+      justify-self: center;
+      background: var(--accent);
+      color: var(--white);
+      border: none;
+      padding: 0.75rem 2rem;
+      border-radius: var(--radius);
+      font-weight: 600;
+      cursor: pointer;
+      transition: background var(--transition);
+    }
+    .enquiry-form button:hover {
+      background: var(--accent-hover);
+    }
+
+    /* File Input and Cancel Button Container */
+    .file-input-container {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.25rem;
+    }
+    .file-input-container input[type="file"] {
+      flex: 1; /* Allow the file input to take remaining space */
+    }
+    .file-input-container .cancel-file-btn {
+      background: #e74c3c; /* Red color for cancel action */
+      color: var(--white);
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius);
+      font-size: 0.9rem;
+      font-weight: 600;
+      transition: background var(--transition);
+    }
+    .file-input-container .cancel-file-btn:hover {
+      background: #c0392b; /* Darker red on hover */
+    }
+
+    /* Inquiry (phone/email links) */
+    .inquiry img{ 
+      margin-left: 465px;
+      height: 150px;
+    }
+    
+
+    /* Products */
+    .products { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:var(--spacing); }
+    .card { position:relative; background:var(--white); border-radius:var(--radius); box-shadow:0 2px 6px rgba(0,0,0,0.05); overflow:hidden; display:flex; flex-direction:column; transition:transform var(--transition),box-shadow var(--transition); }
+    .card:hover { transform:translateY(-5px); box-shadow:0 4px 12px rgba(0,0,0,0.1); }
+    .card img { width:100%; height:180px; object-fit:cover; }
+    .card-body { padding:var(--spacing); flex:1; display:flex; flex-direction:column; }
+    .card-title { font-weight:600; margin-bottom:0.5rem; font-size:1rem; }
+    .card-price { font-weight:700; color:var(--accent); margin-top:auto; }
+    .badge { position:absolute; top:10px; right:10px; background:var(--accent); color:var(--white); font-size:0.75rem; padding:0.25rem 0.5rem; border-radius:var(--radius); }
+    .badge-stock { background:#28a745; }
+    .badge-next { background:#ffc107; }
+
+    /* Footer */
+    footer.site-footer {
+      background: var(--white);
+      border-top: 1px solid #EEE;
+      padding: var(--spacing) 0;
+      margin-top: var(--spacing);
+    }
+    footer.site-footer .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+    footer.site-footer .footer-col {
+      flex: 1;
+      padding: 0 var(--spacing);
+    }
+    footer.site-footer h3 {
+      font-size: 1rem;
+      margin-bottom: 0.5rem;
+      color: var(--dark);
+    }
+    footer.site-footer ul {
+      list-style: none;
+    }
+    footer.site-footer li {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 0.25rem;
+    }
+    /* Added style for the footer anchor target */
+    #footer-section {
+      scroll-margin-top: 100px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Top Bar -->
+  <header class="top-bar">
+    <div class="container">
+      <div class="company-info">
+        <img src="logo.jpg" alt="Logo">
+        <div>
+          <h1>未來科技電腦有限公司</h1>
+          <span>Future Technology Computer LTD</span>
+        </div>
+      </div>
+      <nav class="member-nav">
+        <a href="Home.html">回首頁</a>
+        <a href="#">最新商品</a>
+        <a href="#">幫助中心</a>
+        <a href="Shopping Cart.html">購物車</a>
+        <a href="#">會員登入</a> |
+        <a href="#">加入會員</a>
+      </nav>
+      <a href="#" ><div class="cart-summary">您的購物車中有0件商品, 總計金額 HKS0.00</div></a>
+    </div>
+  </header>
+
+  <header class="main-header">
+    <div class="container flex justify-between items-center">
+      <nav class="nav-primary">
+        <!-- 新手上路 按鈕與選單 -->
+        <div class="dropdown-container">
+          <button id="newbie-btn">新手上路</button>
+          <div id="newbie-menu" class="newbie-menu">
+            <ul>
+              <li>購物流程</li>
+              <li>訂購方式</li>
+              <li>訂單處理程序</li>
+              <li>問題集</li>
+              <li>組裝流程介紹</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- 付款方式 dropdown -->
+        <div class="dropdown-container">
+          <a href="#" id="payment-methods">付款方式</a>
+          <div class="payment-dropdown-content">
+            <img src="5.png" alt="Payment Methods">
+          </div>
+        </div>
+
+        <a href="#">訂購方式</a>
+        <a href="#">聯絡我們</a>
+        <a href="Computer combinations.html">自選組裝</a>
+        <a href="#">電腦組合</a>
+        <a href="#">手提電腦</a>
+        <a href="Original computer.html">原廠電腦</a>
+        <a href="#">商業客戶專區</a>
+        <a href="Online Enquiry.html">網上查詢</a>
+        <a href="#">電腦租用</a>
+        <a href="#footer-section">其他服務</a>
+      </nav>
+    </div>
+  </header>
+
+  
+
+      <main>
+        <!-- Enquiry Form -->
+        <section class="enquiry-form">
+          <img src="30.png">
+          <form action="#" method="post" enctype="multipart/form-data">
+            <label>
+              姓名：*
+              <input type="text" name="name" required>
+            </label>
+            <label>
+              聯絡電話：*
+              <input type="text" name="phone" required>
+            </label>
+            <label>
+              聯絡電郵：*
+              <input type="email" name="email" required>
+              <span class="note">*請確認輸入正確，回復以EMAIL發出</span>
+            </label>
+            <label>
+              公司名稱：
+              <input type="text" name="company">
+              <span class="note">*如適用</span>
+            </label>
+            <label>
+              送貨地址：
+              <input type="text" name="address">
+              <span class="note">*如適用</span>
+            </label>
+            <label>
+              查詢項目：
+              <select name="subject">
+                <option>不選擇</option>
+                <option>産品價錢/服務查詢</option>
+                <option>意見反饋</option>
+                <option>生意合作/行家查詢</option>
+                <option>電郵直接訂購</option>
+                <option>索取正式報價單(請附上公司名稱及地址)</option>
+                <option>提交入數記錄(請將單號輸入下列查詢內容及上傳入數記錄)</option>
+                <option>其他</option>
+              </select>
+            </label>
+            <label>
+              上傳附件：
+              <div class="file-input-container">
+                <input type="file" name="attachment" id="attachment-input">
+                <button type="button" class="cancel-file-btn" id="cancel-file-btn">取消檔案</button>
+              </div>
+              <span class="note">*附件不可大於2M</span>
+            </label>
+            <label class="full-width">
+              查詢內容：*
+              <textarea name="message" required></textarea>
+            </label>
+            <button type="submit">提交</button>
+          </form>
+        </section>
+
+        <!-- Quick Inquiry -->
+        <div class="inquiry">
+          <img src="31.png">
+        </div>
+
+        <!-- Products -->
+        <section class="products">
+          <!-- ... product cards ... -->
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="site-footer" id="footer-section">
+    <div class="container">
+      <div class="footer-col">
+        <h3>服務保證</h3>
+        <ul>
+          <li>產品保用／質量保證</li>
+          <li>14天有壞包換保證</li>
+          <li>得獎項目／用家評論</li>
+          <li>退貨及更換</li>
+          <li>產品環保責任條款</li>
+          <li>除害服務條款</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>售後服務</h3>
+        <ul>
+          <li>技術支援</li>
+          <li>下載</li>
+          <li>代理資料</li>
+          <li>電腦組合支援</li>
+          <li>上門服務</li>
+          <li>改裝升級</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h3>其他</h3>
+        <ul>
+          <li>行家／生意合作</li>
+          <li>電腦租借服務</li>
+          <li>FACEBOOK專頁</li>
+          <li>自選主機圖庫</li>
+          <li>二手回收</li>
+          <li>代訂舊款零件</li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Toggle 新手上路 Menu
+      const newbieBtn = document.getElementById('newbie-btn');
+      const newbieMenu = document.getElementById('newbie-menu');
+      
+      newbieBtn.addEventListener('click', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        newbieMenu.style.display = newbieMenu.style.display === 'block' ? 'none' : 'block';
+        
+        // Close payment dropdown if open
+        document.querySelector('.payment-dropdown-content').style.display = 'none';
+      });
+
+      // Toggle Payment Methods Dropdown
+      const paymentLink = document.getElementById('payment-methods');
+      const paymentDropdown = document.querySelector('.payment-dropdown-content');
+      
+      paymentLink.addEventListener('click', e => {
+        e.preventDefault();
+        e.stopPropagation();
+        paymentDropdown.style.display = paymentDropdown.style.display === 'block' ? 'none' : 'block';
+        
+        // Close newbie menu if open
+        newbieMenu.style.display = 'none';
+      });
+
+      // Close dropdowns when clicking elsewhere
+      document.addEventListener('click', e => {
+        if (!e.target.closest('.dropdown-container')) {
+          newbieMenu.style.display = 'none';
+          paymentDropdown.style.display = 'none';
+        }
+      });
+      
+      // Smooth scroll to footer when clicking "其他服務"
+      document.querySelector('a[href="#footer-section"]').addEventListener('click', function(e) {
+        e.preventDefault();
+        document.getElementById('footer-section').scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+
+      // Cancel File Button Functionality
+      const cancelFileBtn = document.getElementById('cancel-file-btn');
+      const fileInput = document.getElementById('attachment-input');
+      
+      cancelFileBtn.addEventListener('click', () => {
+        fileInput.value = ''; // Reset the file input
+      });
+    });
+  </script>
+</body>
+</html>

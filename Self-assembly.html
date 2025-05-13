@@ -105,7 +105,12 @@
     }
     .newbie-menu li:hover { color: var(--accent); }
     .newbie-menu li:last-child { margin-bottom:0; }
-    
+    /* Search */
+    .search-bar { margin:var(--spacing) 0; display:grid; grid-template-columns:1fr auto; gap:0.5rem; }
+    .search-bar input { padding:0.75rem 1rem; border:1px solid var(--muted); border-radius:var(--radius); }
+    .search-bar button { background:var(--accent); color:var(--white); border:none; padding:0.75rem 1.5rem; border-radius:var(--radius); font-weight:600; cursor:pointer; transition:background var(--transition); }
+    .search-bar button:hover { background:var(--accent-hover); }
+    .tip { font-size:0.85rem; color:var(--muted); margin-bottom:var(--spacing); }
     /* 付款方式 Dropdown */
     .payment-dropdown-content {
       display: none;
@@ -597,7 +602,7 @@
         </div>
         <a href="#">訂購方式</a>
         <a href="#">聯絡我們</a>
-        <a href="Computer combinations.html">自選組裝</a>
+        <a href="Self-assembly.html">自選組裝</a>
         <a href="#">電腦組合</a>
         <a href="#">手提電腦</a>
         <a href="Original computer.html">原廠電腦</a>
@@ -611,6 +616,10 @@
 
   <!-- Self-Quote Section -->
   <div class="quote-section">
+    <div class="search-bar">
+      <input type="text" placeholder="特快智能搜尋商品">
+      <button>搜尋</button>
+    </div>
     <div class="quote-top-image">
       <img src="27.png" alt="PROART 未來智能制造平台 ASUS PROART 尊榮工作配置 Powered by ASUS螺母配置">
     </div>

@@ -235,7 +235,14 @@
     /* Banners */
     .banners { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:var(--spacing); }
     .banners img { border-radius:var(--radius); box-shadow:0 2px 6px rgba(0,0,0,0.05); }
-
+    /* Search */
+    .search-bar { margin:var(--spacing) 0; display:grid; grid-template-columns:1fr auto; gap:0.5rem; margin: 0 auto;
+  width: 63%;
+  margin-bottom: var(--spacing); }
+    .search-bar input { padding:0.75rem 1rem; border:1px solid var(--muted); border-radius:var(--radius); }
+    .search-bar button { background:var(--accent); color:var(--white); border:none; padding:0.75rem 1.5rem; border-radius:var(--radius); font-weight:600; cursor:pointer; transition:background var(--transition); }
+    .search-bar button:hover { background:var(--accent-hover); }
+    .tip { font-size:0.85rem; color:var(--muted); margin-bottom:var(--spacing); }
     /* Enquiry Form */
     .enquiry-form {
       background: var(--white);
@@ -434,7 +441,7 @@
 
         <a href="#">訂購方式</a>
         <a href="#">聯絡我們</a>
-        <a href="Computer combinations.html">自選組裝</a>
+        <a href="Self-assembly.html">自選組裝</a>
         <a href="#">電腦組合</a>
         <a href="#">手提電腦</a>
         <a href="Original computer.html">原廠電腦</a>
@@ -449,8 +456,13 @@
   
 
       <main>
+        <div class="search-bar">
+      <input type="text" placeholder="特快智能搜尋商品">
+      <button>搜尋</button>
+    </div>
         <!-- Enquiry Form -->
         <section class="enquiry-form">
+          
           <img src="30.png">
           <form action="#" method="post" enctype="multipart/form-data">
             <label>
